@@ -4,7 +4,11 @@
     "module": "commonjs",
     "rootDir": "./",
     "outDir": "./build",
+    "strict": true,
     "esModuleInterop": true,
-    "strict": true
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "strictPropertyInitialization": false
   }
 }
