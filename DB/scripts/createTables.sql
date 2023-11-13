@@ -15,7 +15,7 @@ CREATE TABLE `Board` (
 CREATE TABLE `Task` (
   `id` integer PRIMARY KEY AUTO_INCREMENT,
   `board_id` integer,
-  `title` varchar(255) DEFAULT "",
+  `title` varchar(255),
   `text` TEXT,
   `creation_time` timestamp DEFAULT (now()),
   `deletion_time` timestamp DEFAULT null
