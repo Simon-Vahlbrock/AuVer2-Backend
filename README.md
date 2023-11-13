@@ -1,3 +1,7 @@
+# Docker-Commands
+delete container: sudo docker container rm <container name>
+start container: im Verzeichnis der docker-compose.yml sudo docker-compose up
+
 # AuVer2-Backend
 
 | Route                              | GET                                                               | PATCH                           | DELETE | POST                            |

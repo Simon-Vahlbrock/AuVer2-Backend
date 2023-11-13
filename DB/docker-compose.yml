@@ -1,0 +1,14 @@
+version: "1"
+services:
+  db:
+    image: mysql:latest
+    container_name: auver2-db
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=3333
+    ports:
+      - "3306:3306"
+    volumes:
+      - "./scripts/createDB.sql:/docker-entrypoint-initdb.d/1.sql"
+      - "./scripts/createTables.sql:/docker-entrypoint-initdb.d/2.sql"
+      - "./scripts/insertDemoData.sql:/docker-entrypoint-initdb.d/3.sql"
