@@ -9,7 +9,7 @@ import { Board } from "./Board"; // Import the Board entity
 import { LabelTask } from "./LabelTask"; // Import the LabelTask entity
 import { UserTask } from "./UserTask"; // Import the UserTask entity
 
-@Entity()
+@Entity({ name: "Task" })
 export class Task {
   @PrimaryGeneratedColumn()
   id: number;

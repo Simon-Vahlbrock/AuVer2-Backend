@@ -2,7 +2,7 @@ import { Entity, PrimaryColumn, ManyToOne, JoinColumn } from "typeorm";
 import { Label } from "./Label"; // Import the Label entity
 import { Task } from "./Task"; // Import the Task entity
 
-@Entity()
+@Entity({ name: "Label_Task" })
 export class LabelTask {
   @PrimaryColumn()
   Label_id: number;

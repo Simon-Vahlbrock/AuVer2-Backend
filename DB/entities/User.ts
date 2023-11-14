@@ -1,7 +1,7 @@
 import { Entity, PrimaryColumn, Column, OneToMany } from "typeorm";
 import { UserTask } from "./UserTask"; // Import the UserTask entity
 
-@Entity()
+@Entity({ name: "User" })
 export class User {
   @PrimaryColumn()
   user_name: string;

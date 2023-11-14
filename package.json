@@ -2,9 +2,9 @@
   "name": "auver2-backend",
   "version": "1.0.0",
   "description": "delete container: sudo docker container rm <container name> start container: im Verzeichnis der docker-compose.yml sudo docker-compose up",
-  "main": "serrver.ts",
+  "main": "index.ts",
   "scripts": {
-    "server": "nodemon server.ts",
+    "server": "nodemon index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,7 +20,7 @@
   "homepage": "https://github.com/Simon-Vahlbrock/AuVer2-Backend#readme",
   "dependencies": {
     "express": "^4.18.2",
-    "mysql": "^2.18.1",
+    "mysql2": "^3.6.3",
     "nodemon": "^3.0.1",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.3.17",

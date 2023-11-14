@@ -2,7 +2,7 @@ import { Entity, PrimaryColumn, ManyToOne, JoinColumn } from "typeorm";
 import { User } from "./User"; // Import the User entity
 import { Task } from "./Task"; // Import the Task entity
 
-@Entity()
+@Entity({ name: "User_Task" })
 export class UserTask {
   @PrimaryColumn()
   User_user_name: string;

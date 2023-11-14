@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { LabelTask } from "./LabelTask"; // Import the LabelTask entity
 
-@Entity()
+@Entity({ name: "Label" })
 export class Label {
   @PrimaryGeneratedColumn()
   id: number;
