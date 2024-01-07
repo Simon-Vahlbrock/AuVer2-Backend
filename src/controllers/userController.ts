@@ -2,8 +2,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import db from '../config/database';
-
-const secretKey = 'your-secret-key';
+import { SECRET_KEY } from '../config/jwt';
 
 export const registerUser = async (req: Request, res: Response) => {
     const { username, password } = req.body;
@@ -17,7 +16,7 @@ export const registerUser = async (req: Request, res: Response) => {
             if (err) {
                 return res.status(500).json({ error: 'Error registering user' });
             }
-            const token = jwt.sign({ username }, secretKey, { expiresIn: '1h' });
+            const token = jwt.sign({ username }, SECRET_KEY, { expiresIn: '1h' });
             res.json({ token });
         }
     );
@@ -43,7 +42,18 @@ export const loginUser = async (req: Request, res: Response) => {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
 
-        const token = jwt.sign({ username }, secretKey, { expiresIn: '1h' });
+        const token = jwt.sign({ username }, SECRET_KEY, { expiresIn: '1h' });
         res.json({ token });
+    });
+};
+
+export const getAllUsernames = (req: Request, res: Response) => {
+    db.query('SELECT username FROM users', (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Error fetching usernames' });
+        }
+
+        const usernames = results.map((user: { username: string }) => user.username);
+        res.json({ usernames });
     });
 };
