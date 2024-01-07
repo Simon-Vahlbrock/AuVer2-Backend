@@ -20,21 +20,51 @@ db.connect((err) => {
 
 // Update schema
 const schema = `
-    CREATE TABLE IF NOT EXISTS boards (
-        id INT PRIMARY KEY AUTO_INCREMENT,
+    CREATE TABLE IF NOT EXISTS boards
+    (
+        id   INT PRIMARY KEY AUTO_INCREMENT,
         name VARCHAR(255) NOT NULL
     );
 
-    CREATE TABLE IF NOT EXISTS users (
-        id INT PRIMARY KEY AUTO_INCREMENT,
+    CREATE TABLE IF NOT EXISTS users
+    (
+        id       INT PRIMARY KEY AUTO_INCREMENT,
         userName VARCHAR(255) NOT NULL,
         password VARCHAR(255) NOT NULL
     );
 
-    CREATE TABLE IF NOT EXISTS labels (
-        id INT PRIMARY KEY AUTO_INCREMENT,
-        name VARCHAR(255) NOT NULL,
+    CREATE TABLE IF NOT EXISTS labels
+    (
+        id    INT PRIMARY KEY AUTO_INCREMENT,
+        name  VARCHAR(255) NOT NULL,
         color VARCHAR(255) NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS tasks
+    (
+        id      INT PRIMARY KEY AUTO_INCREMENT,
+        title   VARCHAR(255) NOT NULL,
+        text    VARCHAR(255) NOT NULL,
+        boardId INT          NOT NULL,
+        FOREIGN KEY (boardId) REFERENCES boards (id) ON DELETE CASCADE
+    );
+
+    CREATE TABLE IF NOT EXISTS task_labels
+    (
+        id      INT PRIMARY KEY AUTO_INCREMENT,
+        taskId  INT NOT NULL,
+        labelId INT NOT NULL,
+        FOREIGN KEY (taskId) REFERENCES tasks (id) ON DELETE CASCADE,
+        FOREIGN KEY (labelId) REFERENCES labels (id) ON DELETE CASCADE
+    );
+
+    CREATE TABLE IF NOT EXISTS task_users
+    (
+        id     INT PRIMARY KEY AUTO_INCREMENT,
+        taskId INT NOT NULL,
+        userId INT NOT NULL,
+        FOREIGN KEY (taskId) REFERENCES tasks (id) ON DELETE CASCADE,
+        FOREIGN KEY (userId) REFERENCES users (id) ON DELETE CASCADE
     );
 `;
 
