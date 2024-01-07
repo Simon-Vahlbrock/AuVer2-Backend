@@ -4,8 +4,8 @@ import { verifyToken } from '../middleware/auth';
 
 const router = express.Router();
 
-router.get('/:boardId', verifyToken, getAllLabels);
-router.post('/:boardId',verifyToken, createLabel);
+router.get('/', verifyToken, getAllLabels);
+router.post('/',verifyToken, createLabel);
 router.patch('/:id', verifyToken, updateLabel);
 
 export default router;

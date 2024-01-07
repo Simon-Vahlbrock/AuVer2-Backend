@@ -2,9 +2,7 @@ import { Request, Response } from 'express';
 import db from '../config/database';
 
 export const getAllLabels = (req: Request, res: Response) => {
-    const boardId = req.params.boardId;
-
-    db.query('SELECT * FROM labels WHERE boardId = ?', [boardId], (err, results) => {
+    db.query('SELECT * FROM labels', (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Error fetching labels' });
         }
@@ -14,10 +12,9 @@ export const getAllLabels = (req: Request, res: Response) => {
 };
 
 export const createLabel = (req: Request, res: Response) => {
-    const boardId = req.params.boardId;
     const { name, color } = req.body;
 
-    db.query('INSERT INTO labels (name, color, boardId) VALUES (?, ?, ?)', [name, color, boardId], (err, results) => {
+    db.query('INSERT INTO labels (name, color) VALUES (?, ?)', [name, color], (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Error creating label' });
         }
@@ -29,7 +26,6 @@ export const createLabel = (req: Request, res: Response) => {
 
 export const updateLabel = (req: Request, res: Response) => {
     const labelId = req.params.id;
-
     const { name, color } = req.body;
 
     db.query('SELECT * FROM labels WHERE id = ?', [labelId], (err, results) => {

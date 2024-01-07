@@ -5,10 +5,9 @@ import db from '../config/database';
 import { SECRET_KEY } from '../config/jwt';
 
 export const registerUser = async (req: Request, res: Response) => {
-    const boardId = req.params.boardId;
     const { userName, password } = req.body;
 
-    db.query('SELECT * FROM users WHERE userName = ? AND boardId = ?', [userName, boardId], (err, results) => {
+    db.query('SELECT * FROM users WHERE userName = ?', [userName], (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Error registering user' });
         }
@@ -21,24 +20,23 @@ export const registerUser = async (req: Request, res: Response) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     db.query(
-        'INSERT INTO users (userName, password, boardId) VALUES (?, ?, ?)',
-        [userName, hashedPassword, boardId],
+        'INSERT INTO users (userName, password) VALUES (?, ?)',
+        [userName, hashedPassword],
         (err) => {
             if (err) {
                 console.log(err);
                 return res.status(500).json({ error: 'Error registering user' });
             }
-            const token = jwt.sign({ userName, boardId }, SECRET_KEY, { expiresIn: '1h' });
+            const token = jwt.sign({ userName }, SECRET_KEY, { expiresIn: '1h' });
             res.json({ token });
         }
     );
 };
 
 export const loginUser = async (req: Request, res: Response) => {
-    const boardId = req.params.boardId;
     const { userName, password } = req.body;
 
-    db.query('SELECT * FROM users WHERE userName = ? AND boardId = ?', [userName, boardId], async (err, results) => {
+    db.query('SELECT * FROM users WHERE userName = ?', [userName], async (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Error logging in' });
         }
@@ -55,15 +53,13 @@ export const loginUser = async (req: Request, res: Response) => {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
 
-        const token = jwt.sign({ userName, boardId }, SECRET_KEY, { expiresIn: '1h' });
+        const token = jwt.sign({ userName }, SECRET_KEY, { expiresIn: '1h' });
         res.json({ token });
     });
 };
 
 export const getAllUsernames = (req: Request, res: Response) => {
-    const boardId = req.params.boardId;
-
-    db.query('SELECT userName FROM users WHERE boardId = ?',[boardId], (err, results) => {
+    db.query('SELECT userName FROM users', (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Error fetching usernames' });
         }

@@ -28,17 +28,13 @@ const schema = `
     CREATE TABLE IF NOT EXISTS users (
         id INT PRIMARY KEY AUTO_INCREMENT,
         userName VARCHAR(255) NOT NULL,
-        password VARCHAR(255) NOT NULL,
-        boardId INT,
-        FOREIGN KEY (boardId) REFERENCES boards(id)
+        password VARCHAR(255) NOT NULL
     );
 
     CREATE TABLE IF NOT EXISTS labels (
         id INT PRIMARY KEY AUTO_INCREMENT,
         name VARCHAR(255) NOT NULL,
-        color VARCHAR(255) NOT NULL,
-        boardId INT,
-        FOREIGN KEY (boardId) REFERENCES boards(id)
+        color VARCHAR(255) NOT NULL
     );
 `;
 
