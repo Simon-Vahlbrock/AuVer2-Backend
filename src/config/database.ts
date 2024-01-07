@@ -28,8 +28,7 @@ const schema = `
 
     CREATE TABLE IF NOT EXISTS users
     (
-        id       INT PRIMARY KEY AUTO_INCREMENT,
-        userName VARCHAR(255) NOT NULL,
+        userName VARCHAR(255) PRIMARY KEY NOT NULL,
         password VARCHAR(255) NOT NULL
     );
 
@@ -62,9 +61,9 @@ const schema = `
     (
         id     INT PRIMARY KEY AUTO_INCREMENT,
         taskId INT NOT NULL,
-        userId INT NOT NULL,
+        userName VARCHAR(255) NOT NULL,
         FOREIGN KEY (taskId) REFERENCES tasks (id) ON DELETE CASCADE,
-        FOREIGN KEY (userId) REFERENCES users (id) ON DELETE CASCADE
+        FOREIGN KEY (userName) REFERENCES users (userName) ON DELETE CASCADE
     );
 `;
 

@@ -25,7 +25,7 @@ export const createLabel = (req: Request, res: Response) => {
 };
 
 export const updateLabel = (req: Request, res: Response) => {
-    const labelId = req.params.id;
+    const { labelId } = req.params;
     const { name, color } = req.body;
 
     db.query('SELECT * FROM labels WHERE id = ?', [labelId], (err, results) => {

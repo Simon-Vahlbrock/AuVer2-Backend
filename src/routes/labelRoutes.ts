@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.get('/', verifyToken, getAllLabels);
 router.post('/',verifyToken, createLabel);
-router.patch('/:id', verifyToken, updateLabel);
+router.patch('/:labelId', verifyToken, updateLabel);
 
 export default router;

@@ -58,7 +58,7 @@ export const loginUser = async (req: Request, res: Response) => {
     });
 };
 
-export const getAllUsernames = (req: Request, res: Response) => {
+export const getAllUsers = (req: Request, res: Response) => {
     db.query('SELECT userName FROM users', (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Error fetching usernames' });
