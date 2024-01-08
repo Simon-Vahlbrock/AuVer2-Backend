@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import userRoutes from './routes/userRoutes';
 import labelRoutes from './routes/labelRoutes';
 import boardRoutes from './routes/boardRoutes';
@@ -8,6 +9,7 @@ import taskRoutes from './routes/taskRoutes';
 const app = express();
 const port = 3000;
 
+app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/users', userRoutes);
