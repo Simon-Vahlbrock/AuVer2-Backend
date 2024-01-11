@@ -8,7 +8,7 @@ export const getAllBoards = (req: Request, res: Response) => {
             return res.status(500).json({ error: 'Error fetching boards' });
         }
 
-        res.json({ boards: results });
+        res.json(results);
     });
 };
 

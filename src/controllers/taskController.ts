@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import db from '../config/database';
+import { sendDataToClients } from '../index';
 
 export const getAllTasks = (req: Request, res: Response) => {
     const query = `
@@ -75,6 +76,8 @@ export const updateTask = (req: Request, res: Response) => {
             if (err) {
                 return res.status(500).json({ error: 'Error updating task - update task' });
             }
+
+            sendDataToClients('update_task', { id: Number(taskId), title, text, boardId });
 
             res.json({ id: taskId });
         });
