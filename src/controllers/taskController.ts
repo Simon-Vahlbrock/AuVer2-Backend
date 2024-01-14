@@ -22,7 +22,7 @@ export const getAllTasks = (req: Request, res: Response) => {
         }
 
         const tasks = results.map((task: any) => {
-            let assignedLabelIds = task.assignedLabelIds ? task.assignedLabelIds.split(',') : []
+            let assignedLabelIds = task.assignedLabelIds ? task.assignedLabelIds.split(',') : [];
             assignedLabelIds = assignedLabelIds.map((id: string) => Number(id));
 
             return ({
@@ -32,7 +32,7 @@ export const getAllTasks = (req: Request, res: Response) => {
                 boardId: task.boardId,
                 assignedUserNames: task.assignedUserNames ? task.assignedUserNames.split(',') : [],
                 assignedLabelIds: assignedLabelIds,
-            })
+            });
         });
 
         res.json(tasks);
@@ -51,6 +51,15 @@ export const createTask = (req: Request, res: Response) => {
         if (err) {
             res.status(500).json({ error: 'Internal Server Error' });
         }
+
+        sendDataToClients('add_task', {
+            id: results.insertId,
+            title,
+            text,
+            boardId,
+            assignedUserNames: [],
+            assignedLabelIds: []
+        });
 
         res.json({ id: results.insertId, title, text, boardId });
     });
@@ -103,6 +112,8 @@ export const deleteTask = (req: Request, res: Response) => {
             res.status(500).json({ error: 'Internal Server Error' });
         }
 
+        sendDataToClients('delete_task', { id: Number(taskId) });
+
         res.json({ id: taskId });
     });
 };
@@ -141,7 +152,7 @@ export const deleteUserFromTask = (req: Request, res: Response) => {
             res.status(500).json({ error: 'Internal Server Error' });
         }
 
-        sendDataToClients('delete_user_from_task', { taskId, userName })
+        sendDataToClients('delete_user_from_task', { taskId, userName });
 
         res.json({ taskId, userName });
     });
@@ -160,7 +171,7 @@ export const addLabelIdToTask = (req: Request, res: Response) => {
             res.status(500).json({ error: 'Internal Server Error' });
         }
 
-        sendDataToClients('add_label_id_to_task', { taskId, labelId })
+        sendDataToClients('add_label_id_to_task', { taskId, labelId });
 
         res.json({ taskId, labelId });
     });
@@ -181,7 +192,7 @@ export const deleteLabelIdFromTask = (req: Request, res: Response) => {
             res.status(500).json({ error: 'Internal Server Error' });
         }
 
-        sendDataToClients('delete_label_id_from_task', { taskId, labelId })
+        sendDataToClients('delete_label_id_from_task', { taskId, labelId });
 
         res.json({ taskId, labelId });
     });
