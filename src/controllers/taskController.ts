@@ -75,7 +75,7 @@ export const createTask = (req: Request, res: Response) => {
 };
 
 export const updateTask = (req: Request, res: Response) => {
-    const taskId = Number(req.params.id);
+    const taskId = Number(req.params.taskId);
     const { title, text, boardId } = req.body;
 
     db.query('SELECT * FROM tasks WHERE id = ?', [taskId], (err, results) => {
@@ -108,7 +108,7 @@ export const updateTask = (req: Request, res: Response) => {
 };
 
 export const deleteTask = (req: Request, res: Response) => {
-    const taskId = Number(req.params.id);
+    const taskId = Number(req.params.taskId);
 
     const query = `
         DELETE
@@ -128,7 +128,7 @@ export const deleteTask = (req: Request, res: Response) => {
 };
 
 export const addUserToTask = (req: Request, res: Response) => {
-    const taskId = Number(req.params.id);
+    const taskId = Number(req.params.taskId);
     const { userName } = req.params;
 
     const query = `
@@ -148,7 +148,7 @@ export const addUserToTask = (req: Request, res: Response) => {
 };
 
 export const deleteUserFromTask = (req: Request, res: Response) => {
-    const taskId = Number(req.params.id);
+    const taskId = Number(req.params.taskId);
     const { userName } = req.params;
 
     const query = `
@@ -170,7 +170,7 @@ export const deleteUserFromTask = (req: Request, res: Response) => {
 };
 
 export const addLabelIdToTask = (req: Request, res: Response) => {
-    const taskId = Number(req.params.id);
+    const taskId = Number(req.params.taskId);
     const { labelId } = req.params;
 
     const query = `
@@ -190,7 +190,7 @@ export const addLabelIdToTask = (req: Request, res: Response) => {
 };
 
 export const deleteLabelIdFromTask = (req: Request, res: Response) => {
-    const taskId = Number(req.params.id);
+    const taskId = Number(req.params.taskId);
     const { labelId } = req.params;
 
     const query = `
