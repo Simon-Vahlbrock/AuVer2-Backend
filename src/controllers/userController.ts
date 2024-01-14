@@ -92,6 +92,7 @@ export const refreshTokens = (req: Request, res: Response) => {
         // @ts-ignore
         const refreshToken = jwt.sign({ userName: data.userName, isRefreshToken: true }, REFRESH_TOKEN_SECRET, { expiresIn: '7d' });
 
-        res.json({ token, refreshToken });
+        // @ts-ignore
+        res.json({ token, refreshToken, userName: data.userName });
     });
 };

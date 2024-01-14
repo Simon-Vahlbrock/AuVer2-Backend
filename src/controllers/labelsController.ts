@@ -7,7 +7,7 @@ export const getAllLabels = (req: Request, res: Response) => {
             return res.status(500).json({ error: 'Error fetching labels' });
         }
 
-        res.json({ labels: results });
+        res.json(results);
     });
 };
 
