@@ -100,7 +100,7 @@ export const deleteTask = (req: Request, res: Response) => {
 
         res.json({ id: taskId });
     });
-}
+};
 
 export const addUserToTask = (req: Request, res: Response) => {
     const { taskId, userName } = req.params;
@@ -114,6 +114,8 @@ export const addUserToTask = (req: Request, res: Response) => {
         if (err) {
             res.status(500).json({ error: 'Internal Server Error' });
         }
+
+        sendDataToClients('add_user_to_task', { taskId, userName });
 
         res.json({ taskId, userName });
     });
@@ -133,6 +135,8 @@ export const deleteUserFromTask = (req: Request, res: Response) => {
         if (err) {
             res.status(500).json({ error: 'Internal Server Error' });
         }
+
+        sendDataToClients('delete_user_from_task', { taskId, userName })
 
         res.json({ taskId, userName });
     });

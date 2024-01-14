@@ -29,7 +29,10 @@ export const registerUser = async (req: Request, res: Response) => {
 
             const token = jwt.sign({ userName }, TOKEN_SECRET, { expiresIn: '1h' });
 
-            const refreshToken = jwt.sign({ userName, isRefreshToken: true }, REFRESH_TOKEN_SECRET, { expiresIn: '90d' });
+            const refreshToken = jwt.sign({
+                userName,
+                isRefreshToken: true
+            }, REFRESH_TOKEN_SECRET, { expiresIn: '90d' });
 
             res.json({ token, refreshToken });
         }
@@ -71,7 +74,7 @@ export const getAllUsers = (req: Request, res: Response) => {
         }
 
         const userNames = results.map((user: { userName: string }) => user.userName);
-        res.json({ userNames });
+        res.json(userNames);
     });
 };
 
@@ -91,4 +94,4 @@ export const refreshTokens = (req: Request, res: Response) => {
 
         res.json({ token, refreshToken });
     });
-}
+};
