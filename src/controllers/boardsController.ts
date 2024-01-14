@@ -20,13 +20,16 @@ export const createBoard = (req: Request, res: Response) => {
             return res.status(500).json({ error: 'Error creating board' });
         }
 
-        const boardId = results.insertId;
+        const boardId = Number(results.insertId);
+
+        sendDataToClients('add_board', { id: boardId, name });
+
         res.json({ id: boardId });
     });
 };
 
 export const updateBoard = (req: Request, res: Response) => {
-    const { boardId } = req.params;
+    const boardId = Number(req.params.boardId);
 
     const { name } = req.body as { name: string };
 
@@ -35,20 +38,22 @@ export const updateBoard = (req: Request, res: Response) => {
             return res.status(500).json({ error: 'Error updating board' });
         }
 
-        sendDataToClients('update_board', { id: Number(boardId), name });
+        sendDataToClients('update_board', { id: boardId, name });
 
-        res.json({});
+        res.status(204).json();
     });
 };
 
 export const deleteBoard = (req: Request, res: Response) => {
-    const { boardId } = req.params;
+    const boardId = Number(req.params.boardId);
 
     db.query('DELETE FROM boards WHERE id = ?', [boardId], (err) => {
         if (err) {
             return res.status(500).json({ error: 'Error deleting board' });
         }
 
-        res.json({});
+        sendDataToClients('delete_board', { id: boardId });
+
+        res.status(204).json();
     });
 };

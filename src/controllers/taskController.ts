@@ -18,7 +18,7 @@ export const getAllTasks = (req: Request, res: Response) => {
 
     db.query(query, (err, results) => {
         if (err) {
-            res.status(500).json({ error: 'Internal Server Error' });
+            return res.status(500).json({ error: 'Internal Server Error' });
         }
 
         const tasks = results.map((task: any) => {
@@ -49,11 +49,13 @@ export const createTask = (req: Request, res: Response) => {
 
     db.query(query, [title, text, boardId], (err, results) => {
         if (err) {
-            res.status(500).json({ error: 'Internal Server Error' });
+            return res.status(500).json({ error: 'Internal Server Error' });
         }
 
+        const taskId = Number(results.insertId);
+
         sendDataToClients('add_task', {
-            id: results.insertId,
+            id: taskId,
             title,
             text,
             boardId,
@@ -61,12 +63,19 @@ export const createTask = (req: Request, res: Response) => {
             assignedLabelIds: []
         });
 
-        res.json({ id: results.insertId, title, text, boardId });
+        res.json({
+            id: taskId,
+            title,
+            text,
+            boardId,
+            assignedUserNames: [],
+            assignedLabelIds: []
+        });
     });
 };
 
 export const updateTask = (req: Request, res: Response) => {
-    const { taskId } = req.params;
+    const taskId = Number(req.params.id);
     const { title, text, boardId } = req.body;
 
     db.query('SELECT * FROM tasks WHERE id = ?', [taskId], (err, results) => {
@@ -91,15 +100,15 @@ export const updateTask = (req: Request, res: Response) => {
                 return res.status(500).json({ error: 'Error updating task - update task' });
             }
 
-            sendDataToClients('update_task', { id: Number(taskId), title, text, boardId });
+            sendDataToClients('update_task', { id: taskId, title, text, boardId });
 
-            res.json({ id: taskId });
+            res.status(204).json();
         });
     });
 };
 
 export const deleteTask = (req: Request, res: Response) => {
-    const { taskId } = req.params;
+    const taskId = Number(req.params.id);
 
     const query = `
         DELETE
@@ -112,14 +121,15 @@ export const deleteTask = (req: Request, res: Response) => {
             res.status(500).json({ error: 'Internal Server Error' });
         }
 
-        sendDataToClients('delete_task', { id: Number(taskId) });
+        sendDataToClients('delete_task', { id: taskId });
 
-        res.json({ id: taskId });
+        res.status(204).json();
     });
 };
 
 export const addUserToTask = (req: Request, res: Response) => {
-    const { taskId, userName } = req.params;
+    const taskId = Number(req.params.id);
+    const { userName } = req.params;
 
     const query = `
         INSERT INTO task_users (taskId, userName)
@@ -128,17 +138,18 @@ export const addUserToTask = (req: Request, res: Response) => {
 
     db.query(query, [taskId, userName], (err, results) => {
         if (err) {
-            res.status(500).json({ error: 'Internal Server Error' });
+            return res.status(500).json({ error: 'Internal Server Error' });
         }
 
         sendDataToClients('add_user_to_task', { taskId, userName });
 
-        res.json({ taskId, userName });
+        res.status(204).json();
     });
 };
 
 export const deleteUserFromTask = (req: Request, res: Response) => {
-    const { taskId, userName } = req.params;
+    const taskId = Number(req.params.id);
+    const { userName } = req.params;
 
     const query = `
         DELETE
@@ -149,17 +160,18 @@ export const deleteUserFromTask = (req: Request, res: Response) => {
 
     db.query(query, [taskId, userName], (err, results) => {
         if (err) {
-            res.status(500).json({ error: 'Internal Server Error' });
+            return res.status(500).json({ error: 'Internal Server Error' });
         }
 
         sendDataToClients('delete_user_from_task', { taskId, userName });
 
-        res.json({ taskId, userName });
+        res.status(204).json();
     });
 };
 
 export const addLabelIdToTask = (req: Request, res: Response) => {
-    const { taskId, labelId } = req.params;
+    const taskId = Number(req.params.id);
+    const { labelId } = req.params;
 
     const query = `
         INSERT INTO task_labels (taskId, labelId)
@@ -168,17 +180,18 @@ export const addLabelIdToTask = (req: Request, res: Response) => {
 
     db.query(query, [taskId, labelId], (err, results) => {
         if (err) {
-            res.status(500).json({ error: 'Internal Server Error' });
+            return res.status(500).json({ error: 'Internal Server Error' });
         }
 
         sendDataToClients('add_label_id_to_task', { taskId, labelId });
 
-        res.json({ taskId, labelId });
+        res.status(204).json();
     });
 };
 
 export const deleteLabelIdFromTask = (req: Request, res: Response) => {
-    const { taskId, labelId } = req.params;
+    const taskId = Number(req.params.id);
+    const { labelId } = req.params;
 
     const query = `
         DELETE
@@ -189,11 +202,11 @@ export const deleteLabelIdFromTask = (req: Request, res: Response) => {
 
     db.query(query, [taskId, labelId], (err, results) => {
         if (err) {
-            res.status(500).json({ error: 'Internal Server Error' });
+            return res.status(500).json({ error: 'Internal Server Error' });
         }
 
         sendDataToClients('delete_label_id_from_task', { taskId, labelId });
 
-        res.json({ taskId, labelId });
+        res.status(204).json();
     });
 };

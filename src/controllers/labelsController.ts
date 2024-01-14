@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import db from '../config/database';
+import { sendDataToClients } from '../index';
 
 export const getAllLabels = (req: Request, res: Response) => {
     db.query('SELECT * FROM labels', (err, results) => {
@@ -19,13 +20,16 @@ export const createLabel = (req: Request, res: Response) => {
             return res.status(500).json({ error: 'Error creating label' });
         }
 
-        const labelId = results.insertId;
+        const labelId = Number(results.insertId);
+
+        sendDataToClients('add_label', { id: labelId, name, color });
+
         res.json({ id: labelId });
     });
 };
 
 export const updateLabel = (req: Request, res: Response) => {
-    const { labelId } = req.params;
+    const labelId = Number(req.params.id);
     const { name, color } = req.body;
 
     db.query('SELECT * FROM labels WHERE id = ?', [labelId], (err, results) => {
@@ -49,7 +53,9 @@ export const updateLabel = (req: Request, res: Response) => {
                 return res.status(500).json({ error: 'Error updating label - update label' });
             }
 
-            res.json({ id: labelId });
+            sendDataToClients('update_label', { id: labelId, name, color });
+
+            res.status(204).json();
         });
     });
 };
