@@ -44,8 +44,8 @@ export const updateLabel = (req: Request, res: Response) => {
         const currentLabel = results[0];
 
         const updatedLabel = {
-            name: name || currentLabel.name,
-            color: color || currentLabel.color,
+            name: name ?? currentLabel.name,
+            color: color ?? currentLabel.color,
         };
 
         db.query('UPDATE labels SET name = ?, color = ? WHERE id = ?', [updatedLabel.name, updatedLabel.color, labelId], (err) => {

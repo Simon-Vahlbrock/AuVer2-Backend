@@ -6,7 +6,8 @@ import labelRoutes from './routes/labelRoutes';
 import boardRoutes from './routes/boardRoutes';
 import taskRoutes from './routes/taskRoutes';
 import http from 'http';
-import {Server} from 'socket.io';
+import { Server } from 'socket.io';
+import historyRoutes from './routes/historyRoutes';
 
 const app = express();
 const server = http.createServer(app);
@@ -30,6 +31,7 @@ app.use('/users', userRoutes);
 app.use('/labels', labelRoutes);
 app.use('/boards', boardRoutes);
 app.use('/tasks', taskRoutes);
+app.use('/history', historyRoutes);
 
 server.listen(port, () => {
     console.log(`Server is running on port ${port}`);

@@ -25,6 +25,14 @@ const schema = `
     DROP TABLE IF EXISTS tasks;
     DROP TABLE IF EXISTS boards;
     DROP TABLE IF EXISTS users;
+    DROP TABLE IF EXISTS history;
+
+    CREATE TABLE IF NOT EXISTS history
+    (
+        id          INT PRIMARY KEY AUTO_INCREMENT,
+        description VARCHAR(255) NOT NULL,
+        createdAt   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP
+    );
 
     CREATE TABLE IF NOT EXISTS boards
     (
@@ -91,6 +99,9 @@ const schema = `
            (1, 2),
            (2, 2),
            (3, 3);
+
+    INSERT INTO history (description)
+    VALUES ('Initial data');
 
 `;
 

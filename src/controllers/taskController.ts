@@ -90,10 +90,12 @@ export const updateTask = (req: Request, res: Response) => {
         const currentTask = results[0];
 
         const updatedTask = {
-            title: title || currentTask.title,
-            text: text || currentTask.text,
-            boardId: boardId || currentTask.boardId,
+            title: title ?? currentTask.title,
+            text: text ?? currentTask.text,
+            boardId: boardId ?? currentTask.boardId,
         };
+
+        console.log('updatedTask', updatedTask);
 
         db.query('UPDATE tasks SET title = ?, text = ?, boardId = ? WHERE id = ?', [updatedTask.title, updatedTask.text, updatedTask.boardId, taskId], (err) => {
             if (err) {
@@ -171,7 +173,7 @@ export const deleteUserFromTask = (req: Request, res: Response) => {
 
 export const addLabelIdToTask = (req: Request, res: Response) => {
     const taskId = Number(req.params.taskId);
-    const { labelId } = req.params;
+    const labelId = Number(req.params.labelId);
 
     const query = `
         INSERT INTO task_labels (taskId, labelId)
