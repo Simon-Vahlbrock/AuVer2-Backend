@@ -81,18 +81,19 @@ const schema = `
     );
 
     INSERT INTO boards (name)
-    VALUES ('Board 1'),
-           ('Board 2');
+    VALUES ('Zu Bearbeiten'),
+           ('In Bearbeitung'),
+           ('Beendet');
 
     INSERT INTO labels (name, color)
-    VALUES ('Label 1', 'Red'),
-           ('Label 2', 'Blue'),
-           ('Label 3', 'Green');
+    VALUES ('Vorstandssitzung', 'Red'),
+           ('Hohe Priorität', 'Blue'),
+           ('Geschäftsführender Vorstand', 'Green');
 
     INSERT INTO tasks (title, text, boardId)
-    VALUES ('Task 1', 'Description for Task 1', 1),
-           ('Task 2', 'Description for Task 2', 1),
-           ('Task 3', 'Description for Task 3', 2);
+    VALUES ('Neuer Vorstand', 'Abwesende Wahl bestätigen lassen', 2),
+           ('Neue Chorkleidung', 'Simon sucht Designs raus', 1),
+           ('Jour-Fixe einrichten', 'Der GF möchte regelmäßige Treffen zur Absprache haben', 2);
 
     INSERT INTO task_labels (taskId, labelId)
     VALUES (1, 1),
@@ -101,7 +102,7 @@ const schema = `
            (3, 3);
 
     INSERT INTO history (description)
-    VALUES ('Initial data');
+    VALUES ('Es wurden weitere Aufgaben hinzugefügt');
 
 `;
 

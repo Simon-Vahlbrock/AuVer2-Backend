@@ -27,14 +27,7 @@ export const registerUser = async (req: Request, res: Response) => {
                 return res.status(500).json({ error: 'Error registering user - creating user' });
             }
 
-            const token = jwt.sign({ userName }, TOKEN_SECRET, { expiresIn: '1h' });
-
-            const refreshToken = jwt.sign({
-                userName,
-                isRefreshToken: true
-            }, REFRESH_TOKEN_SECRET, { expiresIn: '90d' });
-
-            res.json({ token, refreshToken });
+            res.status(201);
         }
     );
 };
